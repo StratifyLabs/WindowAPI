@@ -66,6 +66,8 @@ public:
   Window &set_width(u16 value);
   Window &set_height(u16 value);
 
+
+
 private:
   friend class Renderer;
   static bool m_is_initialized;

@@ -7,6 +7,7 @@ namespace window {}
 
 #include "window/Texture.hpp"
 #include "window/Event.hpp"
+#include "window/Clipboard.hpp"
 
 using namespace window;
 

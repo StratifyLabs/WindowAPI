@@ -28,11 +28,8 @@ protected:
 class MouseMotionEvent : public EventObject<SDL_MouseMotionEvent> {
 public:
   bool is_valid() const { return type() == Type::mouse_motion; }
-
   u32 which() const { return native_value()->which; }
-
   Point point() const { return Point(native_value()->x, native_value()->y); }
-
   Point relative_point() const {
     return Point(native_value()->xrel, native_value()->yrel);
   }
@@ -50,9 +47,7 @@ public:
   };
 
   bool is_valid() const { return type() == Type::mouse_wheel; }
-
   Direction direction() const { return Direction(native_value()->direction); }
-
   Point point() const { return Point(native_value()->x, native_value()->y); }
 
 private:
@@ -97,7 +92,7 @@ public:
 
   bool is_shift() const { return modifiers() & KeyModifier::shift; }
 
-  bool is_gui() const { return modifiers() & KeyModifier::gui; }
+  bool is_meta() const { return modifiers() & KeyModifier::meta; }
 
   bool is_alt() const { return modifiers() & KeyModifier::alt; }
 
