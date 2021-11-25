@@ -5,8 +5,9 @@
 
 namespace window {}
 
-#include "window/Window.hpp"
+#include "window/Texture.hpp"
+#include "window/Event.hpp"
 
-using namespace lvgl;
+using namespace window;
 
 #endif // WINDOWAPI_WINDOW_HPP
