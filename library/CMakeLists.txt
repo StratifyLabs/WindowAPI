@@ -7,7 +7,13 @@ ExternalProject_Get_Property(sdl INSTALL_DIR)
 
 set(SDL_CMAKE_TARGETS ${INSTALL_DIR}/lib/cmake/SDL2/SDL2Targets.cmake)
 if(EXISTS ${SDL_CMAKE_TARGETS})
-  include(${INSTALL_DIR}/lib/cmake/SDL2/SDL2Targets.cmake)
+  include(${SDL_CMAKE_TARGETS})
+else()
+  # On windows the cmake files get installed in this cmake folder
+  set(SDL_CMAKE_TARGETS ${INSTALL_DIR}/cmake/SDL2Targets.cmake)
+  if(EXISTS ${SDL_CMAKE_TARGETS})
+    include(${SDL_CMAKE_TARGETS})
+  endif()
 endif()
 
 function(add_sdl_libraries CONFIG SDL_TARGETS)
@@ -20,6 +26,11 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
       SDL2::SDL2-static
       )
   endif()
+
+  target_compile_definitions(${TARGET}
+    PUBLIC
+    SDL_MAIN_HANDLED=1
+    )
 
 endfunction()
 
