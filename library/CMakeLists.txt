@@ -27,11 +27,6 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
       )
   endif()
 
-  target_compile_definitions(${TARGET}
-    PUBLIC
-    SDL_MAIN_HANDLED=1
-    )
-
 endfunction()
 
 add_sdl_libraries(release ${SDL_CMAKE_TARGETS})
