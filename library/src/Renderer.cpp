@@ -8,8 +8,6 @@ Renderer::Renderer(Window &window, int index, Renderer::Flags flags) {
   if (result == nullptr) {
     API_RETURN_ASSIGN_ERROR(SDL_GetError(), EINVAL);
   }
-
-  printf("renderer native:%p\n", result);
   set_native_value(result);
 }
 

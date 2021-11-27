@@ -14,7 +14,6 @@ window::Texture::Texture(
     API_RETURN_ASSIGN_ERROR(SDL_GetError(), EINVAL);
   }
 
-  printf("texture native:%p\n", result);
   set_native_value(result);
 
 }
