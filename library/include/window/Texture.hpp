@@ -24,7 +24,18 @@ public:
     PixelFormat pixel_format,
     Access access,
     const Size &size);
+  Texture(const Texture&) = delete;
+  Texture& operator=(const Texture&) = delete;
+  Texture(Texture&&value){
+    swap(value);
+  };
+  Texture& operator=(Texture&&value){
+    swap(value);
+    return *this;
+  }
+
   ~Texture();
+
 
   Texture &update(const Rectangle &rectangle, const void *pixels, int pitch) {
     SDL_UpdateTexture(native_value(), rectangle.native_value(), pixels, pitch);

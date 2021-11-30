@@ -475,13 +475,16 @@ protected:
 template <typename NativeType>
 class NativePointer : public api::ExecutionContext {
 public:
+
   NativeType *native_value() { return m_native_pointer; }
 
   const NativeType *native_value() const { return m_native_pointer; }
 
 protected:
   void set_native_value(NativeType *value) { m_native_pointer = value; }
-
+  void swap(NativePointer & a){
+    std::swap(m_native_pointer, a.m_native_pointer);
+  }
   NativeType *m_native_pointer = nullptr;
 };
 

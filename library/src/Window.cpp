@@ -19,7 +19,6 @@ Window::Window(const char * title, const Point & location, const Size & size, co
     API_RETURN_ASSIGN_ERROR(SDL_GetError(), EINVAL);
   }
 
-  printf("window native:%p\n", result);
   set_native_value(result);
 }
 

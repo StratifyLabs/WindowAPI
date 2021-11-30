@@ -103,6 +103,57 @@ private:
   KeyboardEvent(const SDL_KeyboardEvent *event) : EventObject(event) {}
 };
 
+class WindowEvent : public EventObject<SDL_WindowEvent> {
+public:
+  bool is_valid() const {
+    return type() == Type::window;
+  }
+
+  enum class WindowType {
+    none = SDL_WINDOWEVENT_NONE,
+    shown = SDL_WINDOWEVENT_SHOWN,
+    hidden = SDL_WINDOWEVENT_HIDDEN,
+    exposed = SDL_WINDOWEVENT_EXPOSED,
+    moved = SDL_WINDOWEVENT_MOVED,
+    resized = SDL_WINDOWEVENT_RESIZED,
+    size_changed = SDL_WINDOWEVENT_SIZE_CHANGED,
+    minimized = SDL_WINDOWEVENT_MINIMIZED,
+    maximized = SDL_WINDOWEVENT_MAXIMIZED,
+    restored = SDL_WINDOWEVENT_RESTORED,
+    enter = SDL_WINDOWEVENT_ENTER,
+    leave = SDL_WINDOWEVENT_LEAVE,
+    focus_gained = SDL_WINDOWEVENT_FOCUS_GAINED,
+    focus_lost = SDL_WINDOWEVENT_FOCUS_LOST,
+    close = SDL_WINDOWEVENT_CLOSE,
+    take_focus = SDL_WINDOWEVENT_TAKE_FOCUS,
+    hit_test = SDL_WINDOWEVENT_HIT_TEST
+  };
+
+  WindowType window_type() const {
+    return WindowType(native_value()->event);
+  }
+
+  s32 data1() const {
+    return native_value()->data1;
+  }
+
+  s32 data2() const {
+    return native_value()->data2;
+  }
+
+  Point data_point() const {
+    return Point(data1(), data2());
+  }
+
+  Size data_size() const {
+    return Size(data1(), data2());
+  }
+
+private:
+  friend class Event;
+  WindowEvent(const SDL_WindowEvent *event) : EventObject(event) {}
+};
+
 class Event : public NativeValue<SDL_Event> {
 public:
   using Type = EventType;
@@ -134,6 +185,12 @@ public:
 
   MouseMotionEvent get_mouse_motion() const {
     auto result = MouseMotionEvent(&native_value()->motion);
+    API_ASSERT(result.is_valid());
+    return result;
+  }
+
+  WindowEvent get_window() const {
+    auto result = WindowEvent(&native_value()->window);
     API_ASSERT(result.is_valid());
     return result;
   }
