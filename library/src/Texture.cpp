@@ -14,13 +14,11 @@ window::Texture::Texture(
     API_RETURN_ASSIGN_ERROR(SDL_GetError(), EINVAL);
   }
 
-  printf("create %p\n", result);
   set_native_value(result);
-
 }
+
 window::Texture::~Texture() {
   if( native_value() ){
-    printf("Destroy %p\n", native_value());
     SDL_DestroyTexture(native_value());
   }
 }
