@@ -83,6 +83,19 @@ public:
   Point(int x, int y) : m_x(x), m_y(y) {}
   static constexpr int undefined_value = SDL_WINDOWPOS_UNDEFINED;
 
+  Point operator+(const Point & a) const {
+    return Point(x() + a.x(), y() + a.y());
+  }
+  Point& operator+=(const Point & a){
+    m_x += a.x();
+    m_y += a.y();
+    return *this;
+  }
+
+  Point operator*(float a) const {
+    return Point(m_x * a, m_y*a);
+  }
+
 private:
   API_AF(Point, int, x, undefined_value);
   API_AF(Point, int, y, undefined_value);
