@@ -130,6 +130,19 @@ public:
     return *this;
   }
 
+  static void enable_drop_file(){
+    SDL_EventState(SDL_DROPBEGIN, SDL_ENABLE);
+    SDL_EventState(SDL_DROPCOMPLETE, SDL_ENABLE);
+    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+    SDL_EventState(SDL_DROPTEXT, SDL_ENABLE);
+  }
+
+  static void disable_drop_file(){
+    SDL_EventState(SDL_DROPBEGIN, SDL_DISABLE);
+    SDL_EventState(SDL_DROPCOMPLETE, SDL_DISABLE);
+    SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
+    SDL_EventState(SDL_DROPTEXT, SDL_DISABLE);  }
+
   static constexpr float opacity_transparent = 0.0f;
   static constexpr float opacity_opaque = 1.0f;
 

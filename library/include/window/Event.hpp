@@ -103,11 +103,38 @@ private:
   KeyboardEvent(const SDL_KeyboardEvent *event) : EventObject(event) {}
 };
 
+class DropEvent : public EventObject<SDL_DropEvent> {
+public:
+  ~DropEvent() {
+    if( is_valid() && native_value() && (type() == Type::drop_file) && native_value()->file ){
+      SDL_free(native_value()->file);
+    }
+  }
+
+  static bool is_valid(Type type){
+    if( type == Type::drop_begin ){ return true; }
+    if( type == Type::drop_complete ){ return true; }
+    if( type == Type::drop_file ){ return true; }
+    if( type == Type::drop_text ){ return true; }
+    return false;
+  }
+
+  bool is_valid() const {
+    return is_valid(type());
+  }
+
+  const char *path() const { return native_value()->file; }
+
+private:
+  friend class Event;
+  DropEvent(const SDL_DropEvent *event) : EventObject(event) {}
+
+
+};
+
 class WindowEvent : public EventObject<SDL_WindowEvent> {
 public:
-  bool is_valid() const {
-    return type() == Type::window;
-  }
+  bool is_valid() const { return type() == Type::window; }
 
   enum class WindowType {
     none = SDL_WINDOWEVENT_NONE,
@@ -129,25 +156,15 @@ public:
     hit_test = SDL_WINDOWEVENT_HIT_TEST
   };
 
-  WindowType window_type() const {
-    return WindowType(native_value()->event);
-  }
+  WindowType window_type() const { return WindowType(native_value()->event); }
 
-  s32 data1() const {
-    return native_value()->data1;
-  }
+  s32 data1() const { return native_value()->data1; }
 
-  s32 data2() const {
-    return native_value()->data2;
-  }
+  s32 data2() const { return native_value()->data2; }
 
-  Point data_point() const {
-    return Point(data1(), data2());
-  }
+  Point data_point() const { return Point(data1(), data2()); }
 
-  Size data_size() const {
-    return Size(data1(), data2());
-  }
+  Size data_size() const { return Size(data1(), data2()); }
 
 private:
   friend class Event;
@@ -191,6 +208,12 @@ public:
 
   WindowEvent get_window() const {
     auto result = WindowEvent(&native_value()->window);
+    API_ASSERT(result.is_valid());
+    return result;
+  }
+
+  DropEvent get_drop() const {
+    auto result = DropEvent(&native_value()->drop);
     API_ASSERT(result.is_valid());
     return result;
   }
