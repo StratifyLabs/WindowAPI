@@ -110,6 +110,15 @@ public:
 
   Size get_half() const { return Size(width() / 2, height() / 2); }
 
+  Size operator * (float scale) const {
+    return Size(width() * scale, height() * scale);
+  }
+
+  Size & operator * (float scale){
+    *this = *this * scale;
+    return *this;
+  }
+
 private:
   API_AF(Size, int, width, 0);
   API_AF(Size, int, height, 0);
