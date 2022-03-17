@@ -25,6 +25,13 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
       PUBLIC
       SDL2::SDL2-static
       )
+
+    # This is needed to build on RPI
+    target_link_directories(${TARGET}
+      PUBLIC
+      /opt/vc/lib
+      )
+
   endif()
 
 endfunction()
