@@ -25,25 +25,18 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
       PUBLIC
       SDL2::SDL2-static
       )
-  else()
-
-    # This is needed to build on RPI
-    target_include_directories(${TARGET}
-      PUBLIC
-      /opt/vc/include
-      )
-
-    target_link_directories(${TARGET}
-      PUBLIC
-      /opt/vc/lib
-      )
-
-    target_link_libraries(${TARGET}
-      PUBLIC
-      SDL2
-      )
-
   endif()
+
+  # This is needed to build on RPI
+  target_include_directories(${TARGET}
+    PUBLIC
+    /opt/vc/include
+    )
+
+  target_link_directories(${TARGET}
+    PUBLIC
+    /opt/vc/lib
+    )
 
 endfunction()
 
