@@ -5,7 +5,7 @@ api_add_api_library(WindowAPI "${LIBRARIES}")
 
 ExternalProject_Get_Property(sdl INSTALL_DIR)
 
-set(SDL_CMAKE_TARGETS ${INSTALL_DIR}/lib/cmake/SDL2/SDL2mainTargets.cmake)
+set(SDL_CMAKE_TARGETS ${INSTALL_DIR}/lib/cmake/SDL2/SDL2staticTargets.cmake)
 if(EXISTS ${SDL_CMAKE_TARGETS})
   include(${SDL_CMAKE_TARGETS})
 else()
