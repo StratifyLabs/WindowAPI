@@ -10,7 +10,7 @@ include(ExternalProject)
 ExternalProject_Add(sdl
 	PREFIX ${SOS_SDK_PATH}
 	GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-	GIT_TAG release-2.0.16
+	GIT_TAG release-2.0.20
 	GIT_SHALLOW TRUE
 	GIT_PROGRESS TRUE
 	CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=${SOS_SDK_PATH}
