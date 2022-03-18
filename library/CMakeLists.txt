@@ -21,6 +21,7 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
   #add_dependencies(${TARGET} sdl)
 
   if(EXISTS ${SDL_TARGETS})
+    message(STATUS "Using locally built SDL libraries")
     target_link_libraries(${TARGET}
       PUBLIC
       SDL2::SDL2-static
