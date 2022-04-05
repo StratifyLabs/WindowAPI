@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.12)
 
-project(LvglAPI CXX)
+project(WindowAPI CXX)
 include(CTest)
 
 option(LVGL_API_IS_QT_SIMULATOR "Enable the Qt simulator" OFF)
