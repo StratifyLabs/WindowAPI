@@ -28,6 +28,7 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
       )
   endif()
 
+  #[[
   # This is needed to build on RPI
   target_include_directories(${TARGET}
     PUBLIC
@@ -38,6 +39,7 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
     PUBLIC
     /opt/vc/lib
     )
+    #]]
 
 endfunction()
 
