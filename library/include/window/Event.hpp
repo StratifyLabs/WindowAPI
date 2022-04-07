@@ -39,6 +39,33 @@ private:
   MouseMotionEvent(const SDL_MouseMotionEvent *event) : EventObject(event) {}
 };
 
+class TouchFingerEvent : public EventObject<SDL_TouchFingerEvent> {
+public:
+  enum class Direction {
+    normal = SDL_MOUSEWHEEL_NORMAL,
+    flipped = SDL_MOUSEWHEEL_FLIPPED
+  };
+
+  bool is_valid() const {
+    return type() == Type::finger_motion || type() == Type::finger_down
+           || type() == Type::finger_up;
+  }
+
+  s64 touch_id() const { return native_value()->touchId; }
+  s64 finger_id() const { return native_value()->fingerId; }
+
+  PointNormal distance() const {
+    return {native_value()->dx, native_value()->dy};
+  }
+
+  PointNormal point() const { return {native_value()->x, native_value()->y}; }
+  float pressure() const { return native_value()->pressure; }
+
+private:
+  friend class Event;
+  TouchFingerEvent(const SDL_TouchFingerEvent *event) : EventObject(event) {}
+};
+
 class MouseWheelEvent : public EventObject<SDL_MouseWheelEvent> {
 public:
   enum class Direction {
@@ -106,30 +133,36 @@ private:
 class DropEvent : public EventObject<SDL_DropEvent> {
 public:
   ~DropEvent() {
-    if( is_valid() && native_value() && (type() == Type::drop_file) && native_value()->file ){
+    if (
+      is_valid() && native_value() && (type() == Type::drop_file)
+      && native_value()->file) {
       SDL_free(native_value()->file);
     }
   }
 
-  static bool is_valid(Type type){
-    if( type == Type::drop_begin ){ return true; }
-    if( type == Type::drop_complete ){ return true; }
-    if( type == Type::drop_file ){ return true; }
-    if( type == Type::drop_text ){ return true; }
+  static bool is_valid(Type type) {
+    if (type == Type::drop_begin) {
+      return true;
+    }
+    if (type == Type::drop_complete) {
+      return true;
+    }
+    if (type == Type::drop_file) {
+      return true;
+    }
+    if (type == Type::drop_text) {
+      return true;
+    }
     return false;
   }
 
-  bool is_valid() const {
-    return is_valid(type());
-  }
+  bool is_valid() const { return is_valid(type()); }
 
   const char *path() const { return native_value()->file; }
 
 private:
   friend class Event;
   DropEvent(const SDL_DropEvent *event) : EventObject(event) {}
-
-
 };
 
 class WindowEvent : public EventObject<SDL_WindowEvent> {
@@ -181,6 +214,12 @@ public:
   static Event poll();
 
   bool is_valid() const { return m_is_valid; }
+
+  TouchFingerEvent get_touch_finger() const {
+    auto result = TouchFingerEvent(&native_value()->tfinger);
+    API_ASSERT(result.is_valid());
+    return result;
+  }
 
   KeyboardEvent get_keyboard() const {
     auto result = KeyboardEvent(&native_value()->key);

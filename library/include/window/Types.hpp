@@ -77,6 +77,29 @@ enum class BlendMode {
   modulate = SDL_BLENDMODE_MOD
 };
 
+class Size {
+public:
+  Size() = default;
+  Size(int width, int height) : m_width(width), m_height(height) {}
+
+  Size get_double() const { return Size(width() * 2, height() * 2); }
+
+  Size get_half() const { return Size(width() / 2, height() / 2); }
+
+  Size operator * (float scale) const {
+    return Size(width() * scale, height() * scale);
+  }
+
+  Size & operator * (float scale){
+    *this = *this * scale;
+    return *this;
+  }
+
+private:
+  API_AF(Size, int, width, 0);
+  API_AF(Size, int, height, 0);
+};
+
 class Point {
 public:
   Point() = default;
@@ -101,27 +124,18 @@ private:
   API_AF(Point, int, y, undefined_value);
 };
 
-class Size {
+class PointNormal {
 public:
-  Size() = default;
-  Size(int width, int height) : m_width(width), m_height(height) {}
 
-  Size get_double() const { return Size(width() * 2, height() * 2); }
+  PointNormal(float x, float y) : m_x{x}, m_y{y}{}
 
-  Size get_half() const { return Size(width() / 2, height() / 2); }
-
-  Size operator * (float scale) const {
-    return Size(width() * scale, height() * scale);
-  }
-
-  Size & operator * (float scale){
-    *this = *this * scale;
-    return *this;
+  Point get_point(const Size & size) const {
+    return Point(x() * size.width()-1, y()*size.height()-1);
   }
 
 private:
-  API_AF(Size, int, width, 0);
-  API_AF(Size, int, height, 0);
+  API_AF(PointNormal, float, x, 0.0f);
+  API_AF(PointNormal, float, y, 0.0f);
 };
 
 class RgbaColor {
