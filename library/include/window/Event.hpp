@@ -41,14 +41,22 @@ private:
 
 class TouchFingerEvent : public EventObject<SDL_TouchFingerEvent> {
 public:
-  enum class Direction {
-    normal = SDL_MOUSEWHEEL_NORMAL,
-    flipped = SDL_MOUSEWHEEL_FLIPPED
-  };
+
+  static bool is_valid(Type type) {
+    if (type == Type::finger_motion) {
+      return true;
+    }
+    if (type == Type::finger_down) {
+      return true;
+    }
+    if (type == Type::finger_up) {
+      return true;
+    }
+    return false;
+  }
 
   bool is_valid() const {
-    return type() == Type::finger_motion || type() == Type::finger_down
-           || type() == Type::finger_up;
+    return is_valid(type());
   }
 
   s64 touch_id() const { return native_value()->touchId; }
