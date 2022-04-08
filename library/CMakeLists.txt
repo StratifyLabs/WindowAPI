@@ -26,20 +26,17 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
       PUBLIC
       SDL2::SDL2-static
       )
+  else()
+    target_include_directories(${TARGET}
+      PUBLIC
+      ${SOS_SDK_PATH}/include/SDL2
+      )
+
+    target_link_libraries(${TARGET}
+      PUBLIC
+      ${SOS_SDK_PATH}/lib/libSDL2.so
+      )
   endif()
-
-  #[[
-  # This is needed to build on RPI
-  target_include_directories(${TARGET}
-    PUBLIC
-    /opt/vc/include
-    )
-
-  target_link_directories(${TARGET}
-    PUBLIC
-    /opt/vc/lib
-    )
-    #]]
 
 endfunction()
 
