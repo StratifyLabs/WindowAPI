@@ -11,7 +11,17 @@
 
 namespace window {
 
-class Texture : public NativePointer<SDL_Texture> {
+class TextureDeleter {
+  friend class Texture;
+  static void deleter(SDL_Texture *texture) {
+    if (texture) {
+      SDL_DestroyTexture(texture);
+    }
+  }
+};
+
+class Texture
+  : public NativePointer<SDL_Texture, decltype(&TextureDeleter::deleter)> {
 public:
   enum class Access {
     static_ = SDL_TEXTUREACCESS_STATIC,
@@ -24,18 +34,6 @@ public:
     PixelFormat pixel_format,
     Access access,
     const Size &size);
-  Texture(const Texture&) = delete;
-  Texture& operator=(const Texture&) = delete;
-  Texture(Texture&&value){
-    swap(value);
-  };
-  Texture& operator=(Texture&&value){
-    swap(value);
-    return *this;
-  }
-
-  ~Texture();
-
 
   Texture &update(const Rectangle &rectangle, const void *pixels, int pitch) {
     SDL_UpdateTexture(native_value(), rectangle.native_value(), pixels, pitch);
@@ -58,8 +56,11 @@ public:
     return BlendMode(result);
   }
 
+  const Size &size() const { return m_size; }
+
 private:
   friend class Renderer;
+  Size m_size{};
 };
 
 } // namespace window

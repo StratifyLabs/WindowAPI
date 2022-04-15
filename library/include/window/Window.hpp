@@ -11,7 +11,17 @@
 
 namespace window {
 
-class Window : public NativePointer<SDL_Window> {
+class WindowDeleter {
+  friend class Window;
+  static void deleter(SDL_Window *value) {
+    if (value) {
+      SDL_DestroyWindow(value);
+    }
+  }
+};
+
+class Window
+  : public NativePointer<SDL_Window, decltype(&WindowDeleter::deleter)> {
 public:
   using Flags = WindowFlags;
 
@@ -45,40 +55,39 @@ public:
     const Point &location,
     const Size &size,
     Flags flags);
-  ~Window();
 
-  u32 get_id() const { return SDL_GetWindowID(m_native_pointer); }
+  u32 get_id() const { return SDL_GetWindowID(mutable_native_value()); }
 
   Size get_size() const {
     int w = 0;
     int h = 0;
-    SDL_GetWindowSize(m_native_pointer, &w, &h);
+    SDL_GetWindowSize(mutable_native_value(), &w, &h);
     return Size(w, h);
   }
 
   Size get_minimum_size() const {
     int w = 0;
     int h = 0;
-    SDL_GetWindowMinimumSize(m_native_pointer, &w, &h);
+    SDL_GetWindowMinimumSize(mutable_native_value(), &w, &h);
     return Size(w, h);
   }
 
   Size get_maximum_size() const {
     int w = 0;
     int h = 0;
-    SDL_GetWindowMaximumSize(m_native_pointer, &w, &h);
+    SDL_GetWindowMaximumSize(mutable_native_value(), &w, &h);
     return Size(w, h);
   }
 
   Point get_position() const {
     int x = 0;
     int y = 0;
-    SDL_GetWindowPosition(m_native_pointer, &x, &y);
+    SDL_GetWindowPosition(mutable_native_value(), &x, &y);
     return Point(x, y);
   }
 
   PixelFormat get_pixel_format() const {
-    return PixelFormat(SDL_GetWindowPixelFormat(m_native_pointer));
+    return PixelFormat(SDL_GetWindowPixelFormat(mutable_native_value()));
   }
 
   Window &set_position(const Point &point) {

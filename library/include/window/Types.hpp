@@ -508,20 +508,19 @@ protected:
   NativeType m_native_value{};
 };
 
-template <typename NativeType>
+template <typename NativeType, class NativeDeleter>
 class NativePointer : public api::ExecutionContext {
 public:
-
-  NativeType *native_value() { return m_native_pointer; }
-
-  const NativeType *native_value() const { return m_native_pointer; }
+  NativePointer(NativeType * value, NativeDeleter deleter) : m_native_pointer(value, deleter){}
+  NativeType *native_value() { return m_native_pointer.get(); }
+  const NativeType *native_value() const { return m_native_pointer.get(); }
+  NativeType *mutable_native_value() const { return m_native_pointer.get(); }
 
 protected:
-  void set_native_value(NativeType *value) { m_native_pointer = value; }
-  void swap(NativePointer & a){
-    std::swap(m_native_pointer, a.m_native_pointer);
-  }
-  NativeType *m_native_pointer = nullptr;
+  using UniquePointer = std::unique_ptr<NativeType, NativeDeleter>;
+  UniquePointer m_native_pointer{};
+
+  void set_native_value(NativeType *value) { m_native_pointer.reset(value); }
 };
 
 template <typename NativeType>
