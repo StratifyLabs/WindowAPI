@@ -17,7 +17,7 @@ else()
 endif()
 
 function(add_sdl_libraries CONFIG SDL_TARGETS)
-  set(TARGET WindowAPI_${CONFIG}_link)
+  set(TARGET WindowAPI_${CONFIG}_${SOS_ARCH})
   #add_dependencies(${TARGET} sdl)
 
   if(EXISTS ${SDL_TARGETS})
