@@ -12,7 +12,7 @@ if(SOS_IS_LINUX)
     GIT_TAG release-2.0.20
     GIT_SHALLOW TRUE
     GIT_PROGRESS TRUE
-    CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/SDL/configure --enable-video-kmsdrm --prefix=${SOS_SDK_PATH}
+    CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/SDL/configure --enable-video-kmsdrm --prefix=${SOS_SDK_PATH} --disable-shared
     BUILD_COMMAND make -j4
     INSTALL_COMMAND make install
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL

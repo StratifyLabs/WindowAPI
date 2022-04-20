@@ -35,7 +35,8 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
 
     target_link_libraries(${TARGET}
       PUBLIC
-      ${SOS_SDK_PATH}/lib/libSDL2.so
+      ${SOS_SDK_PATH}/lib/libSDL2.a
+      dl
       )
   endif()
 
