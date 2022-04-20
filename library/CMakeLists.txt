@@ -29,7 +29,8 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
   else()
     target_include_directories(${TARGET}
       PUBLIC
-      ${SOS_SDK_PATH}/include/SDL2
+      $<BUILD_INTERFACE:${SOS_SDK_PATH}/include/SDL2>
+      $<INSTALL_INTERFACE:include/SDL2>
       )
 
     target_link_libraries(${TARGET}
