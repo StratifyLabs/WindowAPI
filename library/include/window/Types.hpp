@@ -517,7 +517,7 @@ public:
   NativeType *mutable_native_value() const { return m_native_pointer.get(); }
 
 protected:
-  using UniquePointer = std::unique_ptr<NativeType, NativeDeleter>;
+  using UniquePointer = api::UniquePointer<NativeType, NativeDeleter>;
   UniquePointer m_native_pointer{};
 
   void set_native_value(NativeType *value) { m_native_pointer.reset(value); }
