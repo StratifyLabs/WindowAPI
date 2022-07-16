@@ -1,3 +1,3 @@
-# Pre-Release
+# Version 0.0.0
 
-No releases yet.
+Pre-release. For LvglAPI branch v0.0 and DesignAPI v0.0
