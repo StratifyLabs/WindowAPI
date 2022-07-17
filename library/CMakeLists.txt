@@ -17,7 +17,7 @@ else()
 endif()
 
 function(add_sdl_libraries CONFIG SDL_TARGETS)
-  set(TARGET WindowAPI_${CONFIG}_${SOS_ARCH})
+  set(TARGET WindowAPI_${CONFIG}_${CMSDK_ARCH})
   #add_dependencies(${TARGET} sdl)
 
   if(EXISTS ${SDL_TARGETS})
@@ -29,13 +29,13 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
   else()
     target_include_directories(${TARGET}
       PUBLIC
-      $<BUILD_INTERFACE:${SOS_SDK_PATH}/include/SDL2>
+      $<BUILD_INTERFACE:${CMSDK_LOCAL_PATH}/include/SDL2>
       $<INSTALL_INTERFACE:include/SDL2>
       )
 
     target_link_libraries(${TARGET}
       PUBLIC
-      ${SOS_SDK_PATH}/lib/libSDL2.a
+      ${CMSDK_LOCAL_PATH}/lib/libSDL2.a
       dl
       )
   endif()
