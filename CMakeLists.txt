@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
-
 project(WindowAPI CXX)
 include(CTest)
-
 include(ExternalProject)
-
 if(CMSDK_IS_LINUX)
   ExternalProject_Add(sdl
     PREFIX ${CMSDK_LOCAL_PATH}
@@ -15,8 +12,7 @@ if(CMSDK_IS_LINUX)
     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/SDL/configure --enable-video-kmsdrm --prefix=${CMSDK_LOCAL_PATH} --disable-shared
     BUILD_COMMAND make -j4
     INSTALL_COMMAND make install
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL
-    )
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL)
 else()
   ExternalProject_Add(sdl
     PREFIX ${CMSDK_LOCAL_PATH}
@@ -28,9 +24,7 @@ else()
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/SDL
     )
 endif()
-
 add_subdirectory(library library)
-
 option(WINDOW_API_IS_TEST "Enable test builds for WindowAPI" OFF)
 if(WINDOW_API_IS_TEST)
   add_subdirectory(tests tests)
