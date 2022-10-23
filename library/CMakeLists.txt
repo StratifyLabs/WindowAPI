@@ -16,7 +16,7 @@ function(add_sdl_libraries CONFIG SDL_TARGETS)
   set(TARGET WindowAPI_${CONFIG}_${CMSDK_ARCH})
   #add_dependencies(${TARGET} sdl)
   if(EXISTS ${SDL_TARGETS})
-    message(STATUS "Using locally built SDL libraries")
+    message(STATUS "WindowAPI: Using locally built SDL libraries")
     target_link_libraries(${TARGET}
       PUBLIC
       SDL2::SDL2-static)
