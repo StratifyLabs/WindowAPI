@@ -135,26 +135,12 @@ public:
     return *this;
   }
 
-  static void enable_drop_file() {
-    SDL_EventState(SDL_DROPBEGIN, SDL_ENABLE);
-    SDL_EventState(SDL_DROPCOMPLETE, SDL_ENABLE);
-    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
-    SDL_EventState(SDL_DROPTEXT, SDL_ENABLE);
-  }
+  static void enable_drop_file();
+  static void disable_drop_file();
+  static void show_cursor(bool value = true);
 
-  static void disable_drop_file() {
-    SDL_EventState(SDL_DROPBEGIN, SDL_DISABLE);
-    SDL_EventState(SDL_DROPCOMPLETE, SDL_DISABLE);
-    SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
-    SDL_EventState(SDL_DROPTEXT, SDL_DISABLE);
-  }
-
-  static void show_cursor(bool value = true) {
-    SDL_ShowCursor(value ? SDL_ENABLE : SDL_DISABLE);
-  }
-
-  static constexpr float opacity_transparent = 0.0f;
-  static constexpr float opacity_opaque = 1.0f;
+  static constexpr auto opacity_transparent = 0.0f;
+  static constexpr auto opacity_opaque = 1.0f;
 
   Window &set_opacity(float opacity) {
     SDL_SetWindowOpacity(native_value(), opacity);
@@ -163,7 +149,6 @@ public:
 
 private:
   friend class Renderer;
-  static bool m_is_initialized;
 };
 
 API_OR_NAMED_FLAGS_OPERATOR(Window, Flags)
