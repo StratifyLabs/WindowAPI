@@ -1,6 +1,8 @@
 # v1.0.0
 
-- Not yet released
+## New Features
+
+- Initial Release
 
 # v0.0.0
 
