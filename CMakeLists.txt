@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
-project(WindowAPI CXX)
+cmsdk2_minimum_required(2.1.2)
+project(WindowAPI
+  LANGUAGES CXX
+  VERSION 1.0.1)
 include(CTest)
 include(ExternalProject)
 set(SDL_GIT_TAG release-2.24.1)
