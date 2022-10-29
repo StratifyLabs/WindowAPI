@@ -1,3 +1,8 @@
+cmsdk2_check_version(
+  NAME API
+  VERSION ${API_VERSION}
+  MINIMUM_VERSION 1.6.4)
+
 api2_add_library(
   NAME WindowAPI
   DEPENDENCIES ThreadAPI FsAPI ChronoAPI VarAPI)
